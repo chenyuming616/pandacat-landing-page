@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap 位置
-Sitemap: https://pandacat.tw/sitemap.xml
+Sitemap: https://pandacat.com.tw/sitemap.xml
