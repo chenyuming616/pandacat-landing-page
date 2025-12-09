@@ -134,7 +134,7 @@
     <header class="header" id="header">
         <div class="container header__inner">
             <a href="#" class="header__logo" aria-label="胖大喵首頁">
-                <img src="assets/logo.png" alt="胖大喵 Pandacat Logo" width="120" height="48">
+                <img src="assets/logo-header.png" alt="胖大喵 Pandacat Logo" width="220" height="56">
             </a>
 
             <nav class="header__nav" aria-label="主要導航">
@@ -283,37 +283,149 @@
                 <p class="section__subtitle">每一件產品都由胖大喵親自試用驗證</p>
 
                 <div class="products__grid">
-                    <article class="product-card">
-                        <div class="product-card__image">
-                            <img src="assets/product-litter-box.png" alt="胖大喵全封閉貓砂盆" width="400" height="300"
-                                loading="lazy"
-                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;display:flex;align-items:center;justify-content:center;height:100%;color:#3B2B22;opacity:0.5;&quot;>🐱 全封閉貓砂盆</div>';">
+                    <!-- 產品卡片 1：貓砂盆 -->
+                    <article class="product-card" data-product="litter-box">
+                        <!-- 圖片輪播 -->
+                        <div class="product-carousel">
+                            <div class="product-carousel__slides">
+                                <div class="product-carousel__slide active">
+                                    <img src="assets/product-litter-box-1.jpg" alt="為胖貓設計的全封閉貓砂盆 - 主圖" loading="lazy"
+                                        onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>🐱 貓砂盆實拍</div>';">
+                                </div>
+                                <div class="product-carousel__slide">
+                                    <img src="assets/product-litter-box-2.jpg" alt="三層抽屜特寫" loading="lazy"
+                                        onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>📦 三層抽屜</div>';">
+                                </div>
+                                <div class="product-carousel__slide">
+                                    <img src="assets/product-litter-box-3.jpg" alt="居家情境" loading="lazy"
+                                        onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>🏠 居家情境</div>';">
+                                </div>
+                            </div>
+                            <button class="product-carousel__arrow product-carousel__arrow--prev" aria-label="上一張">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                                </svg>
+                            </button>
+                            <button class="product-carousel__arrow product-carousel__arrow--next" aria-label="下一張">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </button>
+                            <div class="product-carousel__dots">
+                                <button class="product-carousel__dot active" aria-label="圖片 1"></button>
+                                <button class="product-carousel__dot" aria-label="圖片 2"></button>
+                                <button class="product-carousel__dot" aria-label="圖片 3"></button>
+                            </div>
                         </div>
+
+                        <!-- 卡片內容 -->
                         <div class="product-card__content">
-                            <h3 class="product-card__title">胖大喵全封閉貓砂盆</h3>
-                            <ul class="product-card__features">
-                                <li class="product-card__feature">全封閉設計，徹底不飛砂</li>
-                                <li class="product-card__feature">易清理三層抽屜結構</li>
-                                <li class="product-card__feature">零壓力進出弧形門設計</li>
+                            <h3 class="product-card__title">為胖貓設計的全封閉貓砂盆</h3>
+
+                            <p class="product-card__intro">
+                                地板不再佈滿顆粒。每天清理只要 30 秒，家裡乾淨、牠也舒服。
+                            </p>
+
+                            <ul class="product-card__benefits">
+                                <li class="product-card__benefit">完全阻隔飛砂，地板不再佈滿顆粒</li>
+                                <li class="product-card__benefit">三層抽屜每天清理 30 秒完成</li>
+                                <li class="product-card__benefit">弧形大門設計，胖貓進出不卡毛</li>
                             </ul>
+
+                            <div class="product-card__test">
+                                <span class="product-card__test-icon">🐱</span>
+                                <p class="product-card__test-text">
+                                    <strong>奶油實測：</strong>7.5kg 胖貓每天使用，抽屜清潔時間 27 秒
+                                </p>
+                            </div>
+
+                            <a href="https://shopee.tw/xuanling67" target="_blank" rel="noopener noreferrer"
+                                class="product-card__cta">
+                                看實拍 🐱
+                            </a>
                         </div>
                     </article>
 
-                    <article class="product-card">
-                        <div class="product-card__image">
-                            <img src="assets/product-cage.png" alt="胖大喵大空間貓籠" width="400" height="300" loading="lazy"
-                                onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=&quot;display:flex;align-items:center;justify-content:center;height:100%;color:#3B2B22;opacity:0.5;&quot;>🏠 大空間貓籠</div>';">
+                    <!-- 產品卡片 2：貓籠 -->
+                    <article class="product-card" data-product="cat-cage">
+                        <!-- 圖片輪播 -->
+                        <div class="product-carousel">
+                            <div class="product-carousel__slides">
+                                <div class="product-carousel__slide active">
+                                    <img src="assets/product-cage-1.jpg" alt="多貓家庭的大空間貓籠 - 主圖" loading="lazy"
+                                        onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>🏠 貓籠實拍</div>';">
+                                </div>
+                                <div class="product-carousel__slide">
+                                    <img src="assets/product-cage-2.jpg" alt="拱門設計特寫" loading="lazy"
+                                        onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>🚪 拱門設計</div>';">
+                                </div>
+                                <div class="product-carousel__slide">
+                                    <img src="assets/product-cage-3.jpg" alt="居家情境" loading="lazy"
+                                        onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>🏠 居家情境</div>';">
+                                </div>
+                            </div>
+                            <button class="product-carousel__arrow product-carousel__arrow--prev" aria-label="上一張">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                                </svg>
+                            </button>
+                            <button class="product-carousel__arrow product-carousel__arrow--next" aria-label="下一張">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </button>
+                            <div class="product-carousel__dots">
+                                <button class="product-carousel__dot active" aria-label="圖片 1"></button>
+                                <button class="product-carousel__dot" aria-label="圖片 2"></button>
+                                <button class="product-carousel__dot" aria-label="圖片 3"></button>
+                            </div>
                         </div>
+
+                        <!-- 卡片內容 -->
                         <div class="product-card__content">
-                            <h3 class="product-card__title">胖大喵大空間貓籠</h3>
-                            <ul class="product-card__features">
-                                <li class="product-card__feature">寬敞平台，活動空間大</li>
-                                <li class="product-card__feature">可愛拱門設計</li>
-                                <li class="product-card__feature">專屬封閉便盆與收納抽屜</li>
+                            <h3 class="product-card__title">多貓家庭的大空間貓籠</h3>
+
+                            <p class="product-card__intro">
+                                不用擔心空間不夠。兩隻貓同時在裡面也不會打架，主人更安心。
+                            </p>
+
+                            <ul class="product-card__benefits">
+                                <li class="product-card__benefit">超寬平台讓貓咪自在伸展不壓迫</li>
+                                <li class="product-card__benefit">可愛拱門設計增添居家美感</li>
+                                <li class="product-card__benefit">專屬便盆與收納抽屜一次搞定</li>
                             </ul>
+
+                            <div class="product-card__test">
+                                <span class="product-card__test-icon">🐱</span>
+                                <p class="product-card__test-text">
+                                    <strong>奶油實測：</strong>2 隻貓同時使用無壓力，收納抽屜超好清
+                                </p>
+                            </div>
+
+                            <a href="https://shopee.tw/xuanling67" target="_blank" rel="noopener noreferrer"
+                                class="product-card__cta">
+                                看實拍 🐱
+                            </a>
                         </div>
                     </article>
                 </div>
+
+                <!-- 品牌主張 -->
+                <section class="why-us">
+                    <h2 class="why-us__title">為什麼選胖大喵？</h2>
+                    <div class="why-us__content">
+                        <p class="why-us__text">
+                            因為養貓的日子，不只是換砂和倒飼料。
+                            是每天看到牠在窗邊曬太陽的樣子；
+                            是加班到很晚，牠蹲在門口等你回家的那一刻。
+                        </p>
+                        <p class="why-us__text">
+                            所以我們挑的每一件用品，
+                            都是自己願意放進家裡的。
+                            能讓牠舒服，也讓你放心。
+                        </p>
+                    </div>
+                </section>
 
                 <div class="products__cta">
                     <a href="https://shopee.tw/xuanling67" target="_blank" rel="noopener noreferrer"
@@ -404,7 +516,7 @@
                         </button>
                         <div class="faq-item__answer">
                             <div class="faq-item__answer-inner">
-                                全封閉貓砂盆適用 2~9kg 的貓咪。弧形門與高頂設計，胖貓也能正常進出與轉身。
+                                本店貓砂盆適用 2~9kg 的貓咪，主要考慮到貓貓們的舒適度，讓胖貓也能正常進出與轉身。
                             </div>
                         </div>
                     </div>
@@ -464,61 +576,58 @@
     <!-- ===== Footer ===== -->
     <footer class="footer" id="footer">
         <div class="container">
-            <div class="footer__inner">
+            <!-- 主要內容區 -->
+            <div class="footer__main">
                 <div class="footer__brand">
                     <a href="#" class="footer__logo" aria-label="胖大喵首頁">
-                        <img src="assets/logo.png" alt="胖大喵 Pandacat" width="64" height="64">
+                        <img src="assets/logo-footer.jpg" alt="胖大喵 Pandacat" width="80" height="80">
                     </a>
-                    <p class="footer__tagline">毛孩開心、主人放心</p>
-                </div>
-
-                <div class="footer__links">
-                    <h3 class="footer__links-title">快速連結</h3>
-                    <ul class="footer__links-list">
-                        <li><a href="#values" class="footer__link">品牌理念</a></li>
-                        <li><a href="#products" class="footer__link">商品特色</a></li>
-                        <li><a href="#story" class="footer__link">關於胖大喵</a></li>
-                        <li><a href="#faq" class="footer__link">常見問題</a></li>
-                    </ul>
+                    <div class="footer__brand-text">
+                        <span class="footer__brand-name">胖大喵 Pandacat</span>
+                        <p class="footer__tagline">毛孩開心、主人放心</p>
+                    </div>
                 </div>
 
                 <div class="footer__social">
-                    <h3 class="footer__social-title">追蹤我們</h3>
-                    <ul class="footer__social-list">
-                        <li>
-                            <a href="https://www.instagram.com/pandacat" target="_blank" rel="noopener noreferrer"
-                                class="footer__social-link" aria-label="Instagram">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.threads.net/@naiyo.meow_0425" target="_blank" rel="noopener noreferrer"
-                                class="footer__social-link" aria-label="Threads">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.781 3.632 2.695 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.88-.73 2.132-1.13 3.628-1.154 1.12-.018 2.14.124 3.063.426-.075-1.006-.32-1.78-.737-2.32-.526-.681-1.376-1.03-2.526-1.038h-.028c-.9.006-1.64.249-2.2.72l-1.322-1.57c.86-.722 2.024-1.12 3.476-1.15h.044c1.749.026 3.12.597 4.076 1.696.897 1.033 1.376 2.463 1.424 4.253.478.152.926.34 1.343.564 1.105.594 1.967 1.472 2.494 2.54.749 1.516.834 4.063-1.2 6.052-1.79 1.752-4.017 2.544-7.202 2.565zm-1.15-6.94c-.01 0-.02 0-.03 0-1.397.075-2.108.745-2.073 1.378.018.32.2.613.512.826.358.245.867.374 1.433.341 1.09-.058 1.9-.46 2.41-1.193.378-.544.596-1.24.652-2.073-.63-.157-1.322-.236-2.073-.229-.297.005-.575.02-.831.05z" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://shopee.tw/xuanling67" target="_blank" rel="noopener noreferrer"
-                                class="footer__social-link" aria-label="Shopee">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path
-                                        d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
+                    <a href="https://www.instagram.com/pandacat" target="_blank" rel="noopener noreferrer"
+                        class="footer__social-link" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.threads.net/@naiyo.meow_0425" target="_blank" rel="noopener noreferrer"
+                        class="footer__social-link" aria-label="Threads">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.432 1.781 3.632 2.695 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.332-3.023.88-.73 2.132-1.13 3.628-1.154 1.12-.018 2.14.124 3.063.426-.075-1.006-.32-1.78-.737-2.32-.526-.681-1.376-1.03-2.526-1.038h-.028c-.9.006-1.64.249-2.2.72l-1.322-1.57c.86-.722 2.024-1.12 3.476-1.15h.044c1.749.026 3.12.597 4.076 1.696.897 1.033 1.376 2.463 1.424 4.253.478.152.926.34 1.343.564 1.105.594 1.967 1.472 2.494 2.54.749 1.516.834 4.063-1.2 6.052-1.79 1.752-4.017 2.544-7.202 2.565zm-1.15-6.94c-.01 0-.02 0-.03 0-1.397.075-2.108.745-2.073 1.378.018.32.2.613.512.826.358.245.867.374 1.433.341 1.09-.058 1.9-.46 2.41-1.193.378-.544.596-1.24.652-2.073-.63-.157-1.322-.236-2.073-.229-.297.005-.575.02-.831.05z" />
+                        </svg>
+                    </a>
+                    <a href="https://shopee.tw/xuanling67" target="_blank" rel="noopener noreferrer"
+                        class="footer__social-link" aria-label="Shopee">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                        </svg>
+                    </a>
                 </div>
             </div>
 
+            <!-- 快速連結 -->
+            <nav class="footer__nav">
+                <a href="#values" class="footer__nav-link">品牌理念</a>
+                <span class="footer__nav-divider">•</span>
+                <a href="#products" class="footer__nav-link">商品特色</a>
+                <span class="footer__nav-divider">•</span>
+                <a href="#story" class="footer__nav-link">關於胖大喵</a>
+                <span class="footer__nav-divider">•</span>
+                <a href="#faq" class="footer__nav-link">常見問題</a>
+            </nav>
+
+            <!-- 底部資訊 -->
             <div class="footer__bottom">
                 <p class="footer__copyright">© 2024 胖大喵 Pandacat. All rights reserved.</p>
-                <p class="footer__contact">聯繫我們：<a href="mailto:hello@pandacat.com.tw">hello@pandacat.com.tw</a></p>
+                <a href="mailto:service@pandacat.com.tw" class="footer__email">service@pandacat.com.tw</a>
             </div>
         </div>
     </footer>
@@ -578,6 +687,65 @@
                     });
                 }
             });
+        });
+
+        // 產品圖片輪播功能
+        document.querySelectorAll('.product-carousel').forEach(carousel => {
+            const slides = carousel.querySelectorAll('.product-carousel__slide');
+            const dots = carousel.querySelectorAll('.product-carousel__dot');
+            const prevBtn = carousel.querySelector('.product-carousel__arrow--prev');
+            const nextBtn = carousel.querySelector('.product-carousel__arrow--next');
+            let currentIndex = 0;
+
+            function showSlide(index) {
+                // 處理循環
+                if (index >= slides.length) index = 0;
+                if (index < 0) index = slides.length - 1;
+                currentIndex = index;
+
+                // 更新 slides
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === currentIndex);
+                });
+
+                // 更新 dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            // 箭頭點擊
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+            }
+
+            // 導航點點擊
+            dots.forEach((dot, i) => {
+                dot.addEventListener('click', () => showSlide(i));
+            });
+
+            // 觸控滑動支援
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carousel.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        showSlide(currentIndex + 1); // 向左滑 -> 下一張
+                    } else {
+                        showSlide(currentIndex - 1); // 向右滑 -> 上一張
+                    }
+                }
+            }, { passive: true });
         });
     </script>
 </body>
