@@ -773,7 +773,6 @@ ol {
 
 /* 品牌主張區塊 */
 .why-us {
-    background: linear-gradient(135deg, #fafaf8 0%, #f5f2ed 100%);
     border-radius: var(--radius-lg);
     padding: var(--spacing-2xl) var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
