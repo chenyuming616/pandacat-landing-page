@@ -1453,7 +1453,7 @@ ol {
     margin-bottom: var(--spacing-xl);
 }
 
-/* Blog 圖片 */
+/* Blog Article Visual Elements */
 .blog-image {
     margin: var(--spacing-2xl) 0;
     text-align: center;
@@ -1462,63 +1462,232 @@ ol {
 .blog-image img {
     max-width: 100%;
     height: auto;
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
 }
 
 .blog-image-caption {
-    font-size: 0.875rem;
-    color: #999;
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
     font-style: italic;
 }
 
-/* 重點標註 */
-.blog-content .highlight {
-    color: var(--color-orange);
-    font-weight: 700;
+.highlight {
+    color: var(--primary);
+    font-weight: 600;
 }
 
-.blog-content .highlight-list li {
-    margin-bottom: var(--spacing-md);
-    line-height: 1.7;
+.highlight-list {
+    list-style: none;
+    padding: 0;
 }
 
-/* 提示框 */
-.callout-box {
-    background-color: rgba(245, 124, 64, 0.05);
-    border-left: 4px solid var(--color-orange);
+.highlight-list li {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(255, 182, 185, 0.05));
+    border-left: 4px solid var(--primary);
     border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
-    margin: var(--spacing-xl) 0;
+}
+
+.callout-box {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+    background: linear-gradient(135deg, rgba(255, 182, 185, 0.1), rgba(255, 218, 185, 0.1));
+    border-radius: var(--radius-lg);
+    border: 2px solid rgba(255, 107, 107, 0.2);
 }
 
 .callout-icon {
-    font-size: 2rem;
+    font-size: 2.5rem;
     flex-shrink: 0;
 }
 
 .callout-content h4 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--color-brown);
-    margin: 0 0 var(--spacing-sm) 0;
+    margin-top: 0;
+    color: var(--primary);
 }
 
-.callout-content p {
-    margin-bottom: 0;
-}
-
-/* 小技巧 */
-.blog-content .tip {
-    background-color: #f9f9f9;
+.tip {
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(255, 218, 185, 0.15), rgba(255, 237, 213, 0.15));
+    border-left: 4px solid var(--accent);
     border-radius: var(--radius-md);
-    padding: var(--spacing-md) var(--spacing-lg);
-    margin: var(--spacing-lg) 0;
-    border-left: 3px solid var(--color-orange);
+    margin: var(--spacing-xl) 0;
 }
+
+/* Comparison Table Styles - 胖大喵可愛風格 */
+.comparison-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    margin: var(--spacing-2xl) 0;
+    background: transparent;
+}
+
+.comparison-table thead {
+    background: transparent;
+}
+
+.comparison-table thead th {
+    padding: var(--spacing-md) var(--spacing-lg);
+    color: #8B4513;
+    font-weight: 700;
+    text-align: left;
+    font-size: var(--font-md);
+    background: linear-gradient(135deg, #FFE4E1, #FFF0F5);
+    border: none;
+    position: relative;
+}
+
+.comparison-table thead th:first-child {
+    border-radius: 16px 0 0 16px;
+    padding-left: var(--spacing-xl);
+}
+
+.comparison-table thead th:last-child {
+    border-radius: 0 16px 16px 0;
+    padding-right: var(--spacing-xl);
+    text-align: center;
+}
+
+.comparison-table tbody tr {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 12px rgba(255, 107, 107, 0.08);
+}
+
+.comparison-table tbody tr:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 107, 107, 0.15);
+}
+
+.comparison-table tbody td {
+    padding: var(--spacing-lg) var(--spacing-lg);
+    background: white;
+    border: none;
+    color: #5D4037;
+    line-height: 1.8;
+    vertical-align: middle;
+}
+
+.comparison-table tbody td:first-child {
+    border-radius: 16px 0 0 16px;
+    padding-left: var(--spacing-xl);
+    font-weight: 700;
+    color: #ff6b6b;
+    font-size: 1.05rem;
+    background: linear-gradient(135deg, rgba(255, 182, 185, 0.12), rgba(255, 218, 185, 0.08));
+}
+
+.comparison-table tbody td:last-child {
+    border-radius: 0 16px 16px 0;
+    padding-right: var(--spacing-xl);
+    text-align: center;
+    font-size: 1.4rem;
+    color: #FFB347;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+/* 推薦度星星樣式 */
+.comparison-table tbody tr:nth-child(1) td:last-child {
+    color: #D3D3D3;
+}
+
+.comparison-table tbody tr:nth-child(2) td:last-child {
+    color: #FFD700;
+}
+
+.comparison-table tbody tr:nth-child(3) td:last-child {
+    color: #FF6B6B;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.comparison-table tbody tr:nth-child(4) td:last-child {
+    color: #FFA07A;
+}
+
+/* 響應式表格 - 手機版卡片風格 */
+@media (max-width: 768px) {
+    .comparison-table {
+        border-spacing: 0;
+    }
+
+    .comparison-table thead {
+        display: none;
+    }
+
+    .comparison-table tbody,
+    .comparison-table tr,
+    .comparison-table td {
+        display: block;
+    }
+
+    .comparison-table tbody tr {
+        margin-bottom: var(--spacing-2xl);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(255, 107, 107, 0.12);
+    }
+
+    .comparison-table tbody tr:hover {
+        transform: none;
+    }
+
+    .comparison-table tbody td {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: 0;
+        position: relative;
+        padding-left: 40%;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 182, 185, 0.1);
+    }
+
+    .comparison-table tbody td:last-child {
+        border-bottom: none;
+        justify-content: center;
+        padding-left: 0;
+        padding: var(--spacing-lg);
+    }
+
+    .comparison-table tbody td:first-child {
+        border-radius: 0;
+        padding-left: var(--spacing-lg);
+        font-size: 1.2rem;
+        padding: var(--spacing-lg);
+        background: linear-gradient(135deg, #FFB6B9, #FFDAB9);
+        color: white;
+        text-align: center;
+        margin-bottom: var(--spacing-sm);
+        justify-content: center;
+    }
+
+    .comparison-table tbody td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: var(--spacing-lg);
+        width: 35%;
+        padding-right: var(--spacing-sm);
+        font-weight: 700;
+        color: #8B4513;
+        font-size: 0.9rem;
+    }
+
+    .comparison-table tbody td:first-child:before {
+        content: none;
+    }
+
+    .comparison-table tbody td:last-child:before {
+        content: none;
+    }
+}
+
 
 /* 文章標籤 */
 .blog-article__tags {
