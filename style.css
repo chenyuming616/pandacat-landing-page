@@ -594,7 +594,10 @@ ol {
 .product-carousel__slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    max-width: 800px;
+    max-height: 600px;
+    object-fit: contain;
+    object-position: center;
 }
 
 .product-carousel__placeholder {
@@ -1226,7 +1229,7 @@ ol {
 /* Blog 列表頁 */
 .blog-list {
     background-color: var(--color-white);
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-3xl) 0 var(--spacing-2xl);
     min-height: 60vh;
 }
 
