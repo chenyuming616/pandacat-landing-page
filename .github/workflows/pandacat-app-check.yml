@@ -1,64 +1,26 @@
-name: Pandacat first Blog release staging
+name: Pandacat first Blog release merge
 on:
   push:
     branches: [pandacat-app-check]
     paths: [.github/workflows/pandacat-app-check.yml]
-permissions:
-  contents: read
+permissions: {}
 concurrency:
   group: pandacat-blog-first-release
   cancel-in-progress: false
 jobs:
-  stage:
+  merge:
     if: github.repository_id == '1109968620' && github.actor == 'chenyuming616'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
     env:
-      BRANCH: pandacat-blog-first-release
+      GH_REPO: chenyuming616/pandacat-landing-page
+      NUMBER: '2'
+      HEAD: 9c6bc17a856a6d3cbdbec707daf86211055ce4d6
       MAIN: 6d561133fffbc9049c78ad1786589d23aceda4af
-      BOOTSTRAP: 02e96fb19e0f4a1e7b6d0007b0325589a63bfe08
-      CI_BLOB: 26a5c93d8b3478a1bed35d785e0d8f72f4516ade
-      EXPECTED_PATCH_SHA256: a6e2b5c216a1bb618f8969390cadc09cffea75ff5daa48af5629bd1d2fd4c888
-      EXPECTED_TREE: c23afc9a50ad393bafe19bb5742aadaae0515c92
+      TREE: c23afc9a50ad393bafe19bb5742aadaae0515c92
+      BRANCH: pandacat-blog-first-release
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
-        with:
-          node-version: '24'
-          package-manager-cache: false
-      - name: Verify release bytes and validate isolated candidate
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$(git rev-parse refs/remotes/origin/main)" = "$MAIN"
-          test "$(git rev-parse "refs/remotes/origin/$BRANCH")" = "$BOOTSTRAP"
-          test "$(git rev-parse "$BOOTSTRAP^")" = "$MAIN"
-          test "$(git diff-tree --no-commit-id --name-only -r "$BOOTSTRAP")" = '.github/workflows/blog.yml'
-          test "$(git rev-parse "$BOOTSTRAP:.github/workflows/blog.yml")" = "$CI_BLOB"
-          patch="$RUNNER_TEMP/pandacat-first-release.patch"
-          git show "$GITHUB_SHA:pandacat-first-release.patch" > "$patch"
-          printf '%s  %s\n' "$EXPECTED_PATCH_SHA256" "$patch" | sha256sum --check --status
-          git worktree add --detach "$RUNNER_TEMP/pandacat-release" "$BOOTSTRAP"
-          cd "$RUNNER_TEMP/pandacat-release"
-          git apply --check --index --exclude=.github/workflows/blog.yml "$patch"
-          git apply --index --exclude=.github/workflows/blog.yml "$patch"
-          test "$(git write-tree)" = "$EXPECTED_TREE"
-          git diff --quiet
-          git diff --cached --check
-          npm ci --ignore-scripts
-          npm run lint
-          npm run blog:check
-          npm run blog:test
-          npm run blog:stage
-          git diff --quiet
-          test -z "$(git ls-files --others --exclude-standard)"
-          test "$(git write-tree)" = "$EXPECTED_TREE"
-      - name: Mint narrowly scoped Pandacat App token
+      - name: Mint repository-scoped Pandacat App token
         id: app
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
         with:
@@ -68,36 +30,29 @@ jobs:
           repositories: pandacat-landing-page
           permission-contents: write
           permission-pull-requests: write
-      - name: App stages exact candidate and opens draft PR
+      - name: Verify reviewed release, mark ready, and merge exact revision
         shell: bash
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           APP_SLUG: ${{ steps.app.outputs.app-slug }}
-          INSTALLATION_ID: ${{ steps.app.outputs.installation-id }}
-          GH_REPO: chenyuming616/pandacat-landing-page
-          GIT_TERMINAL_PROMPT: '0'
         run: |
           set -euo pipefail
+          [[ "$NUMBER" =~ ^[1-9][0-9]*$ && "$HEAD" =~ ^[0-9a-f]{40}$ ]]
           test "$APP_SLUG" = 'pandacat-blog-publisher'
-          test -n "$INSTALLATION_ID"
           gh api --paginate 'installation/repositories?per_page=100' | jq -es '[.[].repositories[].id] == [1109968620]' >/dev/null
-          test "$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq .object.sha)" = "$MAIN"
-          test "$(gh api "repos/$GH_REPO/git/ref/heads/$BRANCH" --jq .object.sha)" = "$BOOTSTRAP"
-          test "$(gh api "repos/$GH_REPO/pulls?state=open&head=chenyuming616:$BRANCH&base=main" --jq length)" = 0
-          cd "$RUNNER_TEMP/pandacat-release"
-          test "$(git rev-parse HEAD)" = "$BOOTSTRAP"
-          test "$(git write-tree)" = "$EXPECTED_TREE"
-          bot="$APP_SLUG[bot]"
-          bot_id="$(gh api "users/$APP_SLUG%5Bbot%5D" --jq .id)"
-          [[ "$bot_id" =~ ^[0-9]+$ ]]
-          email="$bot_id+$bot@users.noreply.github.com"
-          git -c user.name="$bot" -c user.email="$email" commit -m 'feat: publish first Pandacat Blog article'
-          head="$(git rev-parse HEAD)"
-          test "$(git rev-parse 'HEAD^{tree}')" = "$EXPECTED_TREE"
-          test "$(git rev-parse 'HEAD^')" = "$BOOTSTRAP"
-          basic="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
-          echo "::add-mask::$basic"
-          GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $basic" git push "https://github.com/$GH_REPO.git" "HEAD:refs/heads/$BRANCH"
-          test "$(gh api "repos/$GH_REPO/git/ref/heads/$BRANCH" --jq .object.sha)" = "$head"
-          number="$(gh api "repos/$GH_REPO/pulls" -f title='Publish first Pandacat Blog article' -f head="$BRANCH" -f base=main -F draft=true -f body='App-authenticated staging of the reviewed first Blog release. Verify Blog CI and Vercel preview before merge.' --jq .number)"
-          gh api "repos/$GH_REPO/pulls/$number" | jq -e --arg actor "$bot" --arg head "$head" 'select(.draft and .user.login == $actor and .head.sha == $head and .base.ref == "main") | {url: .html_url, head: .head.sha, author: .user.login, draft}'
+          repo="repos/$GH_REPO"
+          test "$(gh api "$repo/git/ref/heads/main" --jq .object.sha)" = "$MAIN"
+          test "$(gh api "$repo/git/ref/heads/$BRANCH" --jq .object.sha)" = "$HEAD"
+          test "$(gh api "$repo/git/commits/$HEAD" --jq .tree.sha)" = "$TREE"
+          read_pr() {
+            gh api "$repo/pulls/$NUMBER" | jq -er --argjson draft "$1" --arg head "$HEAD" --arg main "$MAIN" --arg branch "$BRANCH" --arg author "$APP_SLUG[bot]" --arg repo "$GH_REPO" 'select(.draft == $draft and .state == "open" and .merged == false and .user.login == $author and .head.ref == $branch and .head.sha == $head and .head.repo.full_name == $repo and .base.ref == "main" and .base.sha == $main and .base.repo.full_name == $repo) | .node_id | strings | select(length > 0)'
+          }
+          pr_id="$(read_pr true)"
+          curl --disable --fail --silent --show-error --max-time 15 "https://api.github.com/$repo/actions/workflows/blog.yml/runs?event=pull_request&head_sha=$HEAD&per_page=20" | jq -e --arg head "$HEAD" --argjson number "$NUMBER" '[.workflow_runs[] | select(.head_sha == $head and any(.pull_requests[]; .number == $number))] | sort_by(.run_number, .run_attempt) | last | .status == "completed" and .conclusion == "success"' >/dev/null
+          gh api "$repo/commits/$HEAD/status" | jq -e 'any(.statuses[]; .context == "Vercel" and .state == "success" and (.target_url | startswith("https://vercel.com/lias-projects-0cb21a17/pandacat-landing-page/")))' >/dev/null
+          gh api graphql -f query='mutation($id:ID!){markPullRequestReadyForReview(input:{pullRequestId:$id}){pullRequest{id isDraft}}}' -f id="$pr_id" | jq -e --arg id "$pr_id" 'select(.errors == null) | .data.markPullRequestReadyForReview.pullRequest | .id == $id and .isDraft == false' >/dev/null
+          test "$(read_pr false)" = "$pr_id"
+          test "$(gh api "$repo/git/ref/heads/main" --jq .object.sha)" = "$MAIN"
+          merge_sha="$(gh api --method PUT "$repo/pulls/$NUMBER/merge" -f sha="$HEAD" -f merge_method=merge | jq -er 'select(.merged == true) | .sha')"
+          gh api "$repo/git/commits/$merge_sha" | jq -e --arg sha "$merge_sha" --arg head "$HEAD" --arg main "$MAIN" --arg tree "$TREE" 'select(.sha == $sha and .tree.sha == $tree and ([.parents[].sha] == [$main, $head])) | {sha, tree: .tree.sha}'
+          test "$(gh api "$repo/git/ref/heads/main" --jq .object.sha)" = "$merge_sha"
