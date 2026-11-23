@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Create read-only App token
+      - name: Create repository-scoped App token
         id: app
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
@@ -20,7 +20,8 @@ jobs:
           private-key: ${{ secrets.PANDACAT_APP_CHECK_KEY }}
           owner: chenyuming616
           repositories: pandacat-landing-page
-          permission-contents: read
+          permission-contents: write
+          permission-pull-requests: write
       - name: Assert the token can see only Pandacat
         shell: bash
         env:
@@ -30,3 +31,24 @@ jobs:
           gh api --hostname github.com --paginate 'installation/repositories?per_page=100' |
             jq -es '[.[].repositories[] | .id] == [1109968620]' >/dev/null
           echo 'PASS: GitHub App token scoped to Pandacat only'
+      - name: Open an isolated draft pull request as the App
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          set -euo pipefail
+          repo='chenyuming616/pandacat-landing-page'
+          branch="pandacat-app-draft-check-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          base=$(gh api --hostname github.com "repos/$repo/git/ref/heads/main" --jq .object.sha)
+          [[ "$base" =~ ^[a-f0-9]{40}$ ]]
+          gh api --hostname github.com --method POST "repos/$repo/git/refs" \
+            -f ref="refs/heads/$branch" -f sha="$base" >/dev/null
+          body=$(printf '%s\n' 'Temporary draft PR test. Do not merge.' | base64 -w0)
+          gh api --hostname github.com --method PUT "repos/$repo/contents/.pandacat-app-draft-check.txt" \
+            -f branch="$branch" -f message='test: verify Pandacat App draft PR' -f content="$body" >/dev/null
+          result=$(gh api --hostname github.com --method POST "repos/$repo/pulls" \
+            -f title='[Test] Pandacat App draft PR — do not merge' \
+            -f head="$branch" -f base=main \
+            -f body='Cloud-only permission test. No blog content or production deployment. Do not merge.' -F draft=true)
+          jq -e --arg head "$branch" '.draft and .head.ref == $head and .base.ref == "main" and .user.login == "pandacat-blog-publisher[bot]"' <<<"$result" >/dev/null
+          jq -r .html_url <<<"$result"
