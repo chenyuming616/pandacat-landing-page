@@ -1240,6 +1240,36 @@ ol {
     margin-top: var(--spacing-2xl);
 }
 
+.blog-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+}
+
+.blog-pagination a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 var(--spacing-sm);
+    border: 1px solid currentColor;
+    border-radius: var(--radius-full);
+    color: var(--color-brown);
+    background-color: var(--color-white);
+}
+
+.blog-pagination a:hover {
+    background-color: var(--color-cream);
+    text-decoration: underline;
+}
+
+.blog-pagination a:focus-visible {
+    outline: 2px solid var(--color-brown);
+    outline-offset: 3px;
+}
+
 .blog-card {
     background-color: var(--color-white);
     border-radius: var(--radius-lg);
@@ -1382,6 +1412,27 @@ ol {
 .blog-article__date {
     font-size: 0.875rem;
     color: #999;
+}
+
+.blog-article--generated .blog-article__meta,
+.blog-article--generated .blog-article__info {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.blog-article--generated .blog-content {
+    overflow-wrap: anywhere;
+}
+
+.blog-article--generated .blog-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.blog-article--generated .blog-content > table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 /* Blog 文章內容 */

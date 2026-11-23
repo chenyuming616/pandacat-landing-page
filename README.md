@@ -17,35 +17,13 @@ pandacat-landing-page/
     └── og-image.png    # Open Graph 分享圖
 ```
 
-## 部署到 Vercel
+## Blog 維護與部署
 
-### 方法一：透過 Vercel CLI
+發文、預覽、檢查請用 [Blog 發文規範](docs/blog-standard.md)。新稿用 Markdown，網站保持靜態 HTML/CSS。
 
-```bash
-# 安裝 Vercel CLI
-npm install -g vercel
+`vercel.json` 設定 `npm run blog:stage` 為建置指令、`dist` 為輸出目錄。GitHub 串接部署時，請先在預覽確認 Vercel 讀取的是這份設定，以及 GitHub 的文章檢查有被設為合併門檻。舊專案的正式分支、權限和設定不以 repo 推定。
 
-# 登入 Vercel
-vercel login
-
-# 部署
-cd pandacat-landing-page
-vercel --prod
-```
-
-### 方法二：透過 GitHub
-
-1. 將此專案推送到 GitHub
-2. 登入 [Vercel](https://vercel.com)
-3. 點擊「Add New Project」
-4. 選擇此 GitHub repository
-5. 框架選擇「Other」
-6. 點擊「Deploy」
-
-### 方法三：直接拖曳上傳
-
-1. 登入 [Vercel](https://vercel.com)
-2. 將整個 `pandacat-landing-page` 資料夾拖曳到 Vercel 網站
+若要手動部署，先執行 `npm ci --ignore-scripts`、`npm run blog:test`、`npm run blog:stage`，只交付通過檢查的 `dist/`。**不要上傳整個 repo**，因為 repo 根目錄有原稿、測試和設定，並非公開輸出。
 
 ## 部署後設定
 
@@ -59,10 +37,11 @@ vercel --prod
 ### 2. 更新社群連結
 
 在 `index.html` 中搜尋並替換以下連結：
-- `https://shopee.tw/pandacat` → 你的 Shopee 商店連結
 - `https://www.instagram.com/pandacat` → 你的 Instagram 連結
 - `https://www.threads.net/@pandacat` → 你的 Threads 連結
 - `hello@pandacat.tw` → 你的聯繫 Email
+
+蝦皮追蹤連結統一管理於 [`scripts/shopee-links.json`](scripts/shopee-links.json)。請保留提供的完整網址；修改後執行 `npm run blog:build`、`npm run blog:check`。文章內的用法見 [Blog 發布規範](docs/blog-standard.md)。
 
 ### 3. 設定 Google Search Console
 
@@ -92,7 +71,7 @@ vercel --prod
 
 - **輸出格式**：純靜態 HTML/CSS
 - **響應式設計**：Mobile First
-- **SEO**：完整的 Meta tags、Open Graph、FAQ Schema
+- **SEO**：Meta tags、Open Graph、文章結構化資料
 - **效能目標**：Lighthouse > 85
 
 ## 授權
