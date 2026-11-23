@@ -1,0 +1,25 @@
+{
+  "name": "pandacat-landing-page",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "blog:build": "node scripts/blog.mjs build",
+    "blog:check": "node scripts/blog.mjs check",
+    "blog:stage": "node scripts/blog.mjs stage",
+    "blog:preview": "node scripts/blog.mjs preview",
+    "blog:test": "node --test tests/blog.test.mjs",
+    "lint": "eslint \"scripts/**/*.mjs\" \"tests/**/*.mjs\" eslint.config.mjs --max-warnings 0"
+  },
+  "dependencies": {
+    "markdown-it": "15.0.3",
+    "parse5": "8.1.1",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.15.0"
+  }
+}
