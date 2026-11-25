@@ -168,12 +168,12 @@ test('Shopee registry renders exact tracked URLs and refuses unregistered links'
   const preview = join(f.parent, 'shopee-draft-preview');
   f.article(draft, 'draft', { body: '[前往蝦皮](shopee:cat-litter-box-102)' });
   cli(f, 'preview', [draft, preview]);
-  assert.ok(readFileSync(join(preview, 'index.html'), 'utf8').includes('href="' + escaped + '" data-shopee-link="cat-litter-box-102"'));
+  assert.ok(readFileSync(join(preview, 'index.html'), 'utf8').includes('href="' + escaped + '" data-shopee-link="cat-litter-box-102" target="_blank" rel="noopener noreferrer"'));
 
   f.article(published, 'published', { body: '[前往蝦皮](' + exact + ')' });
   cli(f, 'build');
   cli(f, 'check');
-  assert.ok(f.read(...articlePath(published)).includes('href="' + escaped + '" data-shopee-link="cat-litter-box-102"'));
+  assert.ok(f.read(...articlePath(published)).includes('href="' + escaped + '" data-shopee-link="cat-litter-box-102" target="_blank" rel="noopener noreferrer"'));
 
   f.article(draft, 'draft', { body: '[未登錄商品](shopee:not-a-product)' });
   assert.match(cli(f, 'check', [], false), /unknown Shopee link key/u);
@@ -193,7 +193,7 @@ test('litter mat link emits the exact exported tracking URL without table artifa
   f.article(draft, 'draft', { body: '[雙層落砂墊](shopee:cat-litter-mat)' });
   cli(f, 'preview', [draft, output]);
   const html = readFileSync(join(output, 'index.html'), 'utf8');
-  assert.ok(html.includes('href="' + exact.replaceAll('&', '&amp;') + '" data-shopee-link="cat-litter-mat"'));
+  assert.ok(html.includes('href="' + exact.replaceAll('&', '&amp;') + '" data-shopee-link="cat-litter-mat" target="_blank" rel="noopener noreferrer"'));
 });
 
 test('Shopee check rejects raw, altered, and misassigned legacy links', (t) => {
@@ -212,6 +212,31 @@ test('Shopee check rejects raw, altered, and misassigned legacy links', (t) => {
   f.write(original.replace(expected['shopee-home'].url.replaceAll('&', '&amp;'),
     expected['cat-litter-box-105'].url.replaceAll('&', '&amp;')), name);
   assert.match(cli(f, 'check', [], false), /index.html/u);
+});
+
+test('a same-tab Shopee link is rejected and build restores safe external navigation without changing its URL', (t) => {
+  const f = fixture(t);
+  const name = ['blog', 'large-cat-cage-guide', 'index.html'];
+  const original = f.read(...name);
+  const link = original.match(/<a class="blog-product-image-link"[^>]+>/u)?.[0];
+  assert.ok(link?.includes('target="_blank" rel="noopener noreferrer"'));
+  for (const broken of [
+    link.replace(' target="_blank"', ''),
+    link.replace('noopener noreferrer', 'noopener opener'),
+  ]) {
+    assert.notEqual(broken, link);
+    f.write(original.replace(link, broken), ...name);
+    assert.match(cli(f, 'check', [], false), /large-cat-cage-guide/u);
+    assert.match(cli(f, 'stage', [], false), /large-cat-cage-guide/u);
+    cli(f, 'build');
+    const rebuilt = f.read(...name);
+    const actual = rebuilt.match(/<a class="blog-product-image-link"[^>]+>/u)?.[0];
+    assert.ok(actual?.includes('target="_blank"'));
+    assert.ok(actual.includes('rel="noopener noreferrer"'));
+    const normalize = (tag) => tag.replace(' target="_blank"', '').replace(' rel="noopener noreferrer"', '');
+    assert.equal(rebuilt.replace(actual, normalize(actual)), original.replace(link, normalize(link)));
+    cli(f, 'check');
+  }
 });
 
 test('new public articles have real consistent HTML, cards and sitemap; legacy paths remain', (t) => {
