@@ -1523,6 +1523,24 @@ ol {
     box-shadow: var(--shadow-md);
 }
 
+.blog-product-image-link {
+    display: block;
+    border-radius: var(--radius-lg);
+}
+
+.blog-product-image-link__label {
+    display: inline-block;
+    margin-inline-start: 0.4em;
+    color: var(--color-brown);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+}
+
+.blog-product-image-link:focus-visible {
+    outline: 2px solid var(--color-brown);
+    outline-offset: 4px;
+}
+
 .blog-image-caption {
     margin-top: var(--spacing-md);
     font-size: var(--font-sm);
