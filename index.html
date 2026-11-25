@@ -155,7 +155,7 @@
             </a>
 
             <!-- 手機選單按鈕 -->
-            <button class="header__mobile-toggle" aria-label="開啟選單" aria-expanded="false" id="mobileMenuToggle">
+            <button class="header__mobile-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileNav" id="mobileMenuToggle">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -168,6 +168,7 @@
                 <li><a href="#values" class="mobile-nav__link">品牌理念</a></li>
                 <li><a href="#products" class="mobile-nav__link">商品特色</a></li>
                 <li><a href="#story" class="mobile-nav__link">社群</a></li>
+                <li><a href="/blog/" class="mobile-nav__link">Blog</a></li>
                 <li><a href="#faq" class="mobile-nav__link">FAQ</a></li>
                 <li><a data-shopee-link="shopee-home" href="https://shopee.tw/universal-link/xuanling67?deep_and_web=1&amp;smtt=9&amp;utm_campaign=s40866222_ss_tw_webs_home&amp;utm_content=shopee-home&amp;utm_medium=seller&amp;utm_source=website" target="_blank" rel="noopener noreferrer"
                         class="mobile-nav__link">立即前往商店</a></li>
@@ -354,7 +355,7 @@
                         <div class="product-carousel">
                             <div class="product-carousel__slides">
                                 <div class="product-carousel__slide active">
-                                    <img src="assets/product-cat-cage-1.jpg" alt="胖大喵豪華閣樓式大型貓籠 - 一站式解決吃喝拉撒睡"
+                                    <img src="assets/product-cat-cage-1.jpg" alt="胖大喵豪華閣樓式大型貓籠 - 多層平台與收納抽屜"
                                         loading="lazy"
                                         onerror="this.parentElement.innerHTML='<div class=\'product-carousel__placeholder\'>🏠 貓籠實拍</div>';">
                                 </div>
@@ -386,14 +387,14 @@
 
                         <!-- 卡片內容 -->
                         <div class="product-card__content">
-                            <h3 class="product-card__title">多貓家庭的大空間貓籠</h3>
+                            <h3 class="product-card__title">豪華閣樓式大型貓籠</h3>
 
                             <p class="product-card__intro">
-                                不用擔心空間不夠。兩隻貓同時在裡面也不會打架，主人更安心。
+                                供有短期使用需求時參考，不適合長期飼養或讓多隻貓共用。
                             </p>
 
                             <ul class="product-card__benefits">
-                                <li class="product-card__benefit">超寬平台讓貓咪自在伸展不壓迫</li>
+                                <li class="product-card__benefit">多層平台，購買前請核對各層可用尺寸</li>
                                 <li class="product-card__benefit">可愛拱門設計增添居家美感</li>
                                 <li class="product-card__benefit">專屬便盆與收納抽屜一次搞定</li>
                             </ul>
@@ -401,7 +402,7 @@
                             <div class="product-card__test">
                                 <span class="product-card__test-icon">🐱</span>
                                 <p class="product-card__test-text">
-                                    <strong>奶油實測：</strong>2 隻貓同時使用無壓力，收納抽屜超好清
+                                    <strong>選購提醒：</strong>放入用品後仍要留足貓咪轉身及伸展的空間
                                 </p>
                             </div>
 
@@ -661,19 +662,25 @@
         const mobileToggle = document.getElementById('mobileMenuToggle');
         const mobileNav = document.getElementById('mobileNav');
 
-        mobileToggle.addEventListener('click', () => {
-            const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-            mobileToggle.setAttribute('aria-expanded', !isExpanded);
-            mobileNav.classList.toggle('is-active');
-        });
+        function setMobileMenu(open) {
+            mobileToggle.setAttribute('aria-expanded', String(open));
+            mobileToggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+            mobileNav.classList.toggle('is-active', open);
+        }
 
-        // 點擊選單連結後關閉手機選單
-        document.querySelectorAll('.mobile-nav__link').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileToggle.setAttribute('aria-expanded', 'false');
-                mobileNav.classList.remove('is-active');
-            });
+        mobileToggle.addEventListener('click', () => {
+            setMobileMenu(mobileToggle.getAttribute('aria-expanded') !== 'true');
         });
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => setMobileMenu(false));
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && mobileNav.classList.contains('is-active')) {
+                setMobileMenu(false);
+                mobileToggle.focus();
+            }
+        });
+        window.matchMedia('(min-width: 768px)').addEventListener('change', () => setMobileMenu(false));
 
         // Smooth scroll for anchor links (fallback for older browsers)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -230,18 +230,24 @@ ol {
 /* 手機選單 */
 .mobile-nav {
     display: none;
-    position: fixed;
-    top: 72px;
+    position: absolute;
+    top: 100%;
     left: 0;
     right: 0;
-    bottom: 0;
+    max-height: calc(100vh - 100%);
+    max-height: calc(100dvh - 100%);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
     background-color: var(--color-cream);
     padding: var(--spacing-lg);
-    z-index: 999;
+    box-shadow: 0 0.5rem 1.5rem rgb(45 41 38 / 12%);
 }
 
-.mobile-nav.is-active {
-    display: block;
+@media (width < 768px) {
+    .mobile-nav.is-active {
+        display: block;
+    }
 }
 
 .mobile-nav__list {

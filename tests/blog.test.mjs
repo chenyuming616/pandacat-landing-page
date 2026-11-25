@@ -411,3 +411,16 @@ test('Markdown preserves an ordinary HTTPS link and text but does not emit raw e
   assert.doesNotMatch(html, /<mark>/i);
   assert.doesNotMatch(html, /href=["']ftp:/i);
 });
+
+test('desktop and mobile menus both link to the canonical Blog list in staging', (t) => {
+  const f = fixture(t);
+  cli(f, 'stage');
+  const html = f.read('dist', 'index.html');
+  const desktop = html.match(/<nav class="header__nav"[^>]*>[\s\S]*?<\/nav>/u)?.[0];
+  const mobile = html.match(/<nav class="mobile-nav" id="mobileNav"[^>]*>[\s\S]*?<\/nav>/u)?.[0];
+  for (const nav of [desktop, mobile]) {
+    assert.ok(nav, 'Expected navigation in staged homepage');
+    assert.match(nav, /<a href="\/blog\/"[^>]*>Blog<\/a>/u);
+  }
+  assert.match(html, /aria-controls="mobileNav"/u);
+});

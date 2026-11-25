@@ -16,7 +16,7 @@ const legacy = new Map([
   }],
   ['large-cat-cage-guide', {
     publishedAt: '2025-01-15', title: '大空間貓籠選購指南', category: '用品選購',
-    description: '多貓家庭、幼貓隔離必備！選購貓籠的關鍵要點與推薦',
+    description: '貓籠不適合長期飼養。先判斷是否需要短期使用，再看尺寸、材質與結構。',
     cover: '/assets/blog/large-cat-cage-cover.jpg', tags: ['貓籠', '多貓家庭', '幼貓'],
   }],
 ]);
