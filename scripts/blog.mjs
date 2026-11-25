@@ -155,6 +155,8 @@ markdown.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     href = trackedShopee(key, 'Markdown');
     tokens[idx].attrSet('href', href);
     tokens[idx].attrSet('data-shopee-link', key);
+    tokens[idx].attrSet('target', '_blank');
+    tokens[idx].attrSet('rel', 'noopener noreferrer');
   }
   if (env.preview && href.startsWith('/assets/')) tokens[idx].attrSet('href', '.' + href);
   else if (env.preview && href.startsWith('/')) tokens[idx].attrSet('href', origin + href);
@@ -403,6 +405,10 @@ function textContent(node) {
   return node.nodeName === '#text' ? node.value : (node.childNodes || []).map(textContent).join('');
 }
 
+function shopeeRelTokens(node) {
+  return (attr(node, 'rel') || '').toLowerCase().split(/\s+/u).filter(Boolean);
+}
+
 function syncShopeeHtml(source, name) {
   const edits = [];
   for (const node of elementList(parse(source, { sourceCodeLocationInfo: true }))) {
@@ -417,6 +423,22 @@ function syncShopeeHtml(source, name) {
     const location = node.sourceCodeLocation?.attrs?.href;
     if (!location) fail(name + ' registered Shopee anchor requires an href attribute');
     if (href !== destination) edits.push({ ...location, value: 'href="' + escape(destination) + '"' });
+    const rel = new Set(shopeeRelTokens(node));
+    rel.delete('opener');
+    rel.add('noopener');
+    rel.add('noreferrer');
+    const missing = [];
+    for (const [attribute, expected] of [['target', '_blank'], ['rel', [...rel].join(' ')]]) {
+      if (attr(node, attribute) === expected) continue;
+      const value = attribute + '="' + escape(expected) + '"';
+      const attrLocation = node.sourceCodeLocation.attrs[attribute];
+      if (attrLocation) edits.push({ ...attrLocation, value });
+      else missing.push(value);
+    }
+    if (missing.length) {
+      const point = node.sourceCodeLocation.startTag.endOffset - 1;
+      edits.push({ startOffset: point, endOffset: point, value: ' ' + missing.join(' ') });
+    }
   }
   for (const edit of edits.sort((a, b) => b.startOffset - a.startOffset))
     source = source.slice(0, edit.startOffset) + edit.value + source.slice(edit.endOffset);
@@ -560,9 +582,14 @@ function inspectPublic(published, pagination, overrides = new Map()) {
     for (const node of nodes) {
       const href = attr(node, 'href');
       const key = attr(node, 'data-shopee-link');
-      if (node.tagName === 'a' && (key || isShopeeUrl(href) || href?.startsWith('shopee:')) &&
-          (!key || href !== trackedShopee(key, name)))
-        fail(name + ' Shopee link must exactly match its registry key');
+      if (node.tagName === 'a' && (key || isShopeeUrl(href) || href?.startsWith('shopee:'))) {
+        if (!key || href !== trackedShopee(key, name))
+          fail(name + ' Shopee link must exactly match its registry key');
+        const rel = shopeeRelTokens(node);
+        if (attr(node, 'target') !== '_blank' || !rel.includes('noopener') ||
+            !rel.includes('noreferrer') || rel.includes('opener'))
+          fail(name + ' Shopee link must open safely in a new tab');
+      }
       for (const key of ['href', 'src', 'poster']) localReference(attr(node, key), route, name);
       const srcset = attr(node, 'srcset');
       if (srcset) for (const candidate of srcset.split(',')) localReference(candidate.trim().split(/\s+/u)[0], route, name);
