@@ -1485,6 +1485,10 @@ ol {
     padding-left: var(--spacing-xl);
 }
 
+.blog-content ol {
+    list-style: decimal;
+}
+
 .blog-content li {
     font-size: 1.0625rem;
     color: #333;
@@ -1497,13 +1501,13 @@ ol {
 }
 
 .blog-content a {
-    color: var(--color-orange);
+    color: #a63f13;
     text-decoration: underline;
     transition: color var(--transition-fast);
 }
 
 .blog-content a:hover {
-    color: var(--color-orange-hover);
+    color: #7c2f0e;
 }
 
 .blog-content section {
